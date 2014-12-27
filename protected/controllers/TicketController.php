@@ -163,4 +163,28 @@ class TicketController extends Controller
 		return new Ticket(); 
 	}
 	
+        
+        	/**
+	 * Manages all models.
+	 */ 
+	public function actionAdmin()
+	{
+		$model=new Ticket('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Ticket'])) {
+			$model->attributes=$_GET['Ticket'];
+                        if(isset($model->distributionSourceDistributionSource)) {
+                            $model->distributionName = $model->distributionSourceDistributionSource->name;
+                        }
+                        else {
+                            $model->distributionName = "None";
+                        }
+                }
+		$this->render('admin',
+                        array(
+                            'model'=>$model,
+                            
+		));
+	}
+
 }
