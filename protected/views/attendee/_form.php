@@ -1,16 +1,16 @@
 <?php
-/* @var $this TicketController */
-/* @var $model Ticket */
+/* @var $this AttendeeController */
+/* @var $model Attendee */
 /* @var $form CActiveForm */
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.11.2.min.js',CClientScript::POS_BEGIN);
 
 ?>
-<script>var baseUrl = '<?php echo Yii::app()->baseUrl; ?>';</script>;
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'ticket-form',
+	'id'=>'attendee-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -20,79 +20,99 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php if($saved == true)  echo "Ticket Updated";  ?>
+
+	<?php if($saved == true)  echo "Contact Information Updated";  ?>
 	
 	<?php echo $form->errorSummary($model); ?>
 		
+        <div class="ticketNo">
 	<div class="row">
 		<?php echo $form->labelEx($model,'ticket_no'); ?>
 		<?php echo $form->textField($model,'ticket_no',  array('autocomplete'=>'off')); ?>
 		<?php echo $form->error($model,'ticket_no'); ?>
 	</div>
-        
         <div class="row">
-            <button id="fetch">Retrieve Ticket Information</button>
+            <button id="checkTicket">Validate Ticket No.</button>
 	</div>
         <br />
-        <br />
-       
+        </div>
+        <div class="phoneNumber">
+	<div class="row">
+		<?php echo $form->labelEx($model,'Phone Number'); ?>
+		<?php echo $form->textField($model,'country_code',  array(
+                    'value'=>'+92', 
+                    'width'=>4)
+                        ); ?>
+		<?php echo $form->textField($model,'phone_number',  array(
+                    'autocomplete'=>'off',
+                    'width'=>11)
+                        ); ?>
+		<?php //echo $form->error($model,'ticket_no'); ?>
+	</div>
+
         <div class="row">
-            <b>Status : </b> <i><span id="ticket_status">Please Enter Ticket Number</span> </i>
+            <button id="checkPhoneNumber">Retrieve Contact Information</button>
 	</div>
         <br />
-        <br />
+        </div>
         
-        <div class="paymentForm">
+        <div class="selectContactInfoType">
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
-		<?php echo $form->dropDownList($model,'sold_with_promotion_id',  Promotion::getAllPromotions());?>
+            <?php echo $form->dropDownList($model, '', $matching_contacts); ?>
+        </div>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'name'); ?>
+		<?php echo $form->textField($model,'name',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->error($model,'name'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'final_amount_paid'); ?>
-		<?php echo $form->textField($model,'final_amount_paid'); ?>
-		<?php echo $form->error($model,'final_amount_paid'); ?>
-	</div>
-
-        <div class="row">
-		<?php echo $form->labelEx($model,'payment_due_on'); ?>
-		<?php echo $form->textField($model,'payment_due_on'); ?>
-		<?php echo $form->error($model,'payment_due_on'); ?>
+		<?php echo $form->labelEx($model,'gender'); ?>
+		<?php echo $form->textField($model,'gender',array('size'=>7,'maxlength'=>7)); ?>
+		<?php echo $form->error($model,'gender'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'payment_comments'); ?>
-		<?php echo $form->textField($model,'payment_comments',array('size'=>60,'maxlength'=>300)); ?>
-		<?php echo $form->error($model,'payment_comments'); ?>
-	</div>
-        
-        <div class="row">
-		<?php echo $form->labelEx($model,'guest_ref'); ?>
-		<?php echo $form->textField($model,'guest_ref'); ?>
-		<?php echo $form->error($model,'guest_ref'); ?>
+		<?php echo $form->labelEx($model,'date_created'); ?>
+		<?php echo $form->textField($model,'date_created'); ?>
+		<?php echo $form->error($model,'date_created'); ?>
 	</div>
 
-        
-        
-        
-        <div class="row">
-		<input type="checkbox" id="Ticket_details_filled_out" name="Ticket[details_filled_out]"  value="1">&nbsp; I have seen the attendee and his details are on the ticket
+	<div class="row">
+		<?php echo $form->labelEx($model,'date_of_birth'); ?>
+		<?php echo $form->textField($model,'date_of_birth'); ?>
+		<?php echo $form->error($model,'date_of_birth'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'country_code'); ?>
+		<?php echo $form->textField($model,'country_code',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->error($model,'country_code'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'phone_number'); ?>
+		<?php echo $form->textField($model,'phone_number',array('size'=>11,'maxlength'=>11)); ?>
+		<?php echo $form->error($model,'phone_number'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'email_address'); ?>
+		<?php echo $form->textField($model,'email_address',array('size'=>45,'maxlength'=>45)); ?>
+		<?php echo $form->error($model,'email_address'); ?>
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 
-	<div class="row">
-		<?php //$ct = date("Y-m-d H:i:s"); $model->attendee_check_in_time = $ct; echo $ct; ?>
-	</div>
-	</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-
-
 
 <script>
     

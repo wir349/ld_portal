@@ -20,31 +20,48 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php if($saved == true)  echo "Ticket Updated";  ?>
+	<?php if($saved == true)  echo "Contact Information Updated";  ?>
 	
 	<?php echo $form->errorSummary($model); ?>
 		
+        <div class="ticketNo">
 	<div class="row">
 		<?php echo $form->labelEx($model,'ticket_no'); ?>
 		<?php echo $form->textField($model,'ticket_no',  array('autocomplete'=>'off')); ?>
 		<?php echo $form->error($model,'ticket_no'); ?>
 	</div>
-        
         <div class="row">
-            <button id="fetch">Retrieve Ticket Information</button>
+            <button id="checkTicket">Validate Ticket No.</button>
 	</div>
         <br />
-        <br />
-       
+        </div>
+        <div class="phoneNumber">
+	<div class="row">
+		<?php echo $form->labelEx($model,'Phone Number'); ?>
+		<?php echo $form->textField($model,'country_code',  array(
+                    'value'=>'+92', 
+                    'width'=>4)
+                        ); ?>
+		<?php echo $form->textField($model,'phone_number',  array(
+                    'autocomplete'=>'off',
+                    'width'=>11)
+                        ); ?>
+		<?php //echo $form->error($model,'ticket_no'); ?>
+	</div>
+
         <div class="row">
-            <b>Status : </b> <i><span id="ticket_status">Please Enter Ticket Number</span> </i>
+            <button id="checkPhoneNumber">Retrieve Contact Information</button>
 	</div>
         <br />
-        <br />
+        </div>
         
-        <div class="paymentForm">
+        <div class="selectContactInfoType">
 
 	<div class="row">
+            <?php echo $form->dropDownList($model, '', $matching_contacts); ?>
+        </div>
+
+            <div class="row">
 		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
 		<?php echo $form->dropDownList($model,'sold_with_promotion_id',  Promotion::getAllPromotions());?>
 	</div>
