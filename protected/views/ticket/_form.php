@@ -57,15 +57,15 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 	</div>
         
         <div class="row">
-		<?php echo $form->labelEx($model,'final_amount_paid'); ?>
-		<?php echo $form->textField($model,'final_amount_paid'); ?>
-		<?php echo $form->error($model,'final_amount_paid'); ?>
+		<?php echo $form->labelEx($model,'payment_due_on'); ?>
+		<?php echo $form->textField($model,'payment_due_on'); ?>
+		<?php echo $form->error($model,'payment_due_on'); ?>
 	</div>
 
         <div class="row">
-		<?php echo $form->labelEx($model,'final_amount_paid'); ?>
-		<?php echo $form->textField($model,'final_amount_paid'); ?>
-		<?php echo $form->error($model,'final_amount_paid'); ?>
+		<?php echo $form->labelEx($model,'guest_ref'); ?>
+		<?php echo $form->textField($model,'guest_ref'); ?>
+		<?php echo $form->error($model,'guest_ref'); ?>
 	</div>
 
         
@@ -76,7 +76,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton('Save'); ?>
 	</div>
 
 	<div class="row">
@@ -111,7 +111,11 @@ $( document ).ready(function() {
             $('#ticket_status').html(datar['status']);
             if(datar['attended'] == 1)
                 $('#Ticket_details_filled_out').attr("checked", true);
+            
             $('#Ticket_final_amount_paid').val(datar['final_amount_paid']);
+            $('#Ticket_payment_due_on').val(datar['payment_due_on']);
+            $('#Ticket_guest_ref').val(datar['guest_ref']);
+            $('#Ticket_payment_comments').val(datar['payment_comments']);
             
             if(datar['status'] == 'PAID')
                 $('#Ticket_final_amount_paid').attr("disabled", true);

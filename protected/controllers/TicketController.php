@@ -104,7 +104,7 @@ class TicketController extends Controller
                         if($model->save())
                         {
                             $saved = true;
-                        
+                            $model = new Ticket();
                         }
 			
 		}
