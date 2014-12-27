@@ -68,6 +68,9 @@ class AttendeeController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+                $matching_contacts = array();
+
+                
 		if ( isset($_POST['Ticket']) ) 
 		{
                         $model = Ticket::getModelByTicketNo($_POST['Ticket']['ticket_no']);
@@ -95,6 +98,7 @@ class AttendeeController extends Controller
 		$this->render('create',array(
 			'model'=>$model,
 			'saved'=>$saved,
+                    'matching_contacts' => $matching_contacts,
 		));
 	}
 

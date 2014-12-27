@@ -5,6 +5,8 @@
 
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.11.2.min.js',CClientScript::POS_BEGIN);
 
+array_push($matching_contacts, "Add New Entry");
+
 ?>
 
 <div class="form">
@@ -18,18 +20,15 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-
 	<?php if($saved == true)  echo "Contact Information Updated";  ?>
 	
 	<?php echo $form->errorSummary($model); ?>
 		
         <div class="ticketNo">
 	<div class="row">
-		<?php echo $form->labelEx($model,'ticket_no'); ?>
-		<?php echo $form->textField($model,'ticket_no',  array('autocomplete'=>'off')); ?>
-		<?php echo $form->error($model,'ticket_no'); ?>
+		<?php // echo $form->labelEx($model,'ticket_no'); ?>
+		<?php // echo $form->textField($model,'ticket_no',  array('autocomplete'=>'off')); ?>
+		<?php // echo $form->error($model,'ticket_no'); ?>
 	</div>
         <div class="row">
             <button id="checkTicket">Validate Ticket No.</button>
@@ -41,11 +40,11 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		<?php echo $form->labelEx($model,'Phone Number'); ?>
 		<?php echo $form->textField($model,'country_code',  array(
                     'value'=>'+92', 
-                    'width'=>4)
+                    'size'=>4)
                         ); ?>
 		<?php echo $form->textField($model,'phone_number',  array(
                     'autocomplete'=>'off',
-                    'width'=>11)
+                    'size'=>11)
                         ); ?>
 		<?php //echo $form->error($model,'ticket_no'); ?>
 	</div>
@@ -59,7 +58,17 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
         <div class="selectContactInfoType">
 
 	<div class="row">
-            <?php echo $form->dropDownList($model, '', $matching_contacts); ?>
+            <select name="" multiple="multiple">
+            <?php             
+            foreach ($matching_contacts as $key => $value) {
+                ?>
+                <option value="<?php echo $key;?>"><?php echo $value;?></option>
+            <?php 
+            }
+            //echo $form->dropDownList("contact", '', $matching_contacts); 
+            ?>
+                
+            </select>
         </div>
 
 	<?php echo $form->errorSummary($model); ?>
@@ -70,35 +79,6 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		<?php echo $form->error($model,'name'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'gender'); ?>
-		<?php echo $form->textField($model,'gender',array('size'=>7,'maxlength'=>7)); ?>
-		<?php echo $form->error($model,'gender'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'date_created'); ?>
-		<?php echo $form->textField($model,'date_created'); ?>
-		<?php echo $form->error($model,'date_created'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'date_of_birth'); ?>
-		<?php echo $form->textField($model,'date_of_birth'); ?>
-		<?php echo $form->error($model,'date_of_birth'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'country_code'); ?>
-		<?php echo $form->textField($model,'country_code',array('size'=>45,'maxlength'=>45)); ?>
-		<?php echo $form->error($model,'country_code'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'phone_number'); ?>
-		<?php echo $form->textField($model,'phone_number',array('size'=>11,'maxlength'=>11)); ?>
-		<?php echo $form->error($model,'phone_number'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'email_address'); ?>
@@ -110,11 +90,24 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 
+        <div class="row">
+		<?php echo $form->labelEx($model,'date_of_birth'); ?>
+		<?php echo $form->textField($model,'date_of_birth'); ?>
+		<?php echo $form->error($model,'date_of_birth'); ?>
+	</div>
+
+        <div class="row">
+		<?php echo $form->labelEx($model,'gender'); ?>
+		<?php echo $form->textField($model,'gender',array('size'=>7,'maxlength'=>7)); ?>
+		<?php echo $form->error($model,'gender'); ?>
+	</div>
+
+
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 
-<script>
+<!--script>
     
 $( document ).ready(function() {
     $(".paymentForm").hide();
@@ -167,5 +160,5 @@ $( document ).ready(function() {
 
 
 
-</script>
+</script-->
     
