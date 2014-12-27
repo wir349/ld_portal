@@ -26,18 +26,23 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		
 	<div class="row">
 		<?php echo $form->labelEx($model,'ticket_no'); ?>
-		<?php echo $form->textField($model,'ticket_no'); ?>
+		<?php echo $form->textField($model,'ticket_no',  array('autocomplete'=>'off')); ?>
 		<?php echo $form->error($model,'ticket_no'); ?>
 	</div>
         
         <div class="row">
-            <button id="fetch">Fetch</button>
+            <button id="fetch">Retrieve Ticket Information</button>
 	</div>
-        
+        <br />
+        <br />
+       
         <div class="row">
-            <b>Status : </b> <i><span id="ticket_status"></span> </i>
+            <b>Status : </b> <i><span id="ticket_status">Please Enter Ticket Number</span> </i>
 	</div>
+        <br />
+        <br />
         
+        <div class="paymentForm">
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
@@ -50,18 +55,18 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		<?php echo $form->error($model,'final_amount_paid'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'payment_comments'); ?>
-		<?php echo $form->textField($model,'payment_comments',array('size'=>60,'maxlength'=>300)); ?>
-		<?php echo $form->error($model,'payment_comments'); ?>
-	</div>
-        
         <div class="row">
 		<?php echo $form->labelEx($model,'payment_due_on'); ?>
 		<?php echo $form->textField($model,'payment_due_on'); ?>
 		<?php echo $form->error($model,'payment_due_on'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'payment_comments'); ?>
+		<?php echo $form->textField($model,'payment_comments',array('size'=>60,'maxlength'=>300)); ?>
+		<?php echo $form->error($model,'payment_comments'); ?>
+	</div>
+        
         <div class="row">
 		<?php echo $form->labelEx($model,'guest_ref'); ?>
 		<?php echo $form->textField($model,'guest_ref'); ?>
@@ -83,7 +88,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		<?php $ct = date("Y-m-d H:i:s"); echo $ct; ?>
             	
 	</div>
-	
+	</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
@@ -93,7 +98,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 <script>
     
 $( document ).ready(function() {
-
+    $(".paymentForm").hide();
     $("#fetch").click(function(e){
         e.preventDefault();
         if ( $('#Ticket_ticket_no').val() == '' || $('#Ticket_ticket_no').val().length < 2) {
@@ -107,7 +112,7 @@ $( document ).ready(function() {
             dataType: 'json'
         })
         .done(function(datar) {
-            
+            $(".paymentForm").show();
             console.log(datar);
             $('#ticket_status').html(datar['status']);
             if(datar['attended'] == 1)
@@ -127,7 +132,8 @@ $( document ).ready(function() {
                 $('#Ticket_final_amount_paid').attr("disabled", false);
         })
         .fail(function() {
-            alert( "Error in Retrieval" );
+            $(".paymentForm").hide();
+            alert( "Ticket ID is invalid." );
         });
 
 
