@@ -141,7 +141,7 @@ class TicketController extends Controller
             $ticket_no = Yii::app()->request->getParam('ticket_no');
             $model = Ticket::getModelByTicketNo($ticket_no);
           
-            $promotion = $model->sold_with_promotion_id; 
+            $sold_with_promotion_id = $model->sold_with_promotion_id; 
             $attended = $model->details_filled_out;
             $payment_due_on = $model->payment_due_on;
             $guest_ref = $model->guest_ref;
@@ -163,7 +163,7 @@ class TicketController extends Controller
                  $status = 'UNPAID';
             }
             echo CJSON::encode(array('status'=>$status,
-                                    'promotion' => $promotion,  
+                                    'sold_with_promotion_id' => $sold_with_promotion_id,  
                                     'attended' => $attended,
                                     'payment_due_on'=>$payment_due_on,
                                     'guest_ref'=>$guest_ref,

@@ -111,7 +111,10 @@ $( document ).ready(function() {
             $('#ticket_status').html(datar['status']);
             if(datar['attended'] == 1)
                 $('#Ticket_details_filled_out').attr("checked", true);
+			else
+            $('#Ticket_details_filled_out').attr("checked", false);
             
+            $('#Ticket_sold_with_promotion_id').val(datar['sold_with_promotion_id']);
             $('#Ticket_final_amount_paid').val(datar['final_amount_paid']);
             $('#Ticket_payment_due_on').val(datar['payment_due_on']);
             $('#Ticket_guest_ref').val(datar['guest_ref']);
@@ -119,8 +122,8 @@ $( document ).ready(function() {
             
             if(datar['status'] == 'PAID')
                 $('#Ticket_final_amount_paid').attr("disabled", true);
-			else
-				  $('#Ticket_final_amount_paid').attr("disabled", false);
+            else
+                $('#Ticket_final_amount_paid').attr("disabled", false);
         })
         .fail(function() {
             alert( "Error in Retrieval" );
