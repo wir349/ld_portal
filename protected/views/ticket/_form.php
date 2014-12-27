@@ -80,7 +80,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 	</div>
 
 	<div class="row">
-		<?php $ct = date("Y-m-d H:i:s"); $model->attendee_check_in_time = $ct; echo $ct; ?>
+		<?php $ct = date("Y-m-d H:i:s"); echo $ct; ?>
+            	
 	</div>
 	
 <?php $this->endWidget(); ?>
