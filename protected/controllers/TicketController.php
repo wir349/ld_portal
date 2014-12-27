@@ -104,7 +104,7 @@ class TicketController extends Controller
                         
                         if($model->save())
                         {
-                            $saved = true;
+                           Yii::app()->user->setFlash('success', '<strong>Well done!</strong> You successfully read this important alert message.');
                             $model = new Ticket();
                         }
 			
@@ -112,7 +112,7 @@ class TicketController extends Controller
 		
 		$this->render('update',array(
 			'model'=>$model,
-			'saved'=>$saved,
+			
 		));
 	}
 

@@ -5,18 +5,23 @@
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
+
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__). '/../extensions/bootstrap');
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Web Application',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('log','bootstrap'),
 
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
                 'application.components.*',
+                'application.extensions.bootstrap.widgets.*',
 	),
+    
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
@@ -36,6 +41,8 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+            'bootstrap'=>array(
+                'class'=>'bootstrap.components.Bootstrap'),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
@@ -56,7 +63,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=ld_portal',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'root',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		
@@ -79,7 +86,8 @@ return array(
 				*/
 			),
 		),
-	),
+             
+            ),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
@@ -87,4 +95,12 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
 	),
+    'theme'=>'bootstrap',
+    'modules'=>array(
+        'gii'=>array(
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+            ),                      
+        ),
+    ),
 );
