@@ -47,48 +47,42 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
-		<?php echo $form->dropDownList($model,'sold_with_promotion_id',  Promotion::getAllPromotions());?>
+            <?php 
+            $promotions_list = Promotion::getAllPromotions();
+            echo $form->dropDownList($model,'sold_with_promotion_id', $promotions_list, array('id'=>"promotion_list", 'empty' => '--Select a Promotion --'));
+            ?>
 	</div>
 
-	<div class="row">
+	<div class="row final_amount_paid_div">
 		<?php echo $form->labelEx($model,'final_amount_paid'); ?>
 		<?php echo $form->textField($model,'final_amount_paid'); ?>
 		<?php echo $form->error($model,'final_amount_paid'); ?>
 	</div>
 
-        <div class="row">
+        <div class="row payment_due_on_div">
 		<?php echo $form->labelEx($model,'payment_due_on'); ?>
 		<?php echo $form->textField($model,'payment_due_on'); ?>
 		<?php echo $form->error($model,'payment_due_on'); ?>
 	</div>
 
-	<div class="row">
+	<div class="row payment_comments_div">
 		<?php echo $form->labelEx($model,'payment_comments'); ?>
 		<?php echo $form->textArea($model,'payment_comments',array('rows'=>3,'size'=>60,'maxlength'=>300)); ?>
 		<?php echo $form->error($model,'payment_comments'); ?>
 	</div>
         
+
         <div class="row">
 		
+
+        <div class="row guest_ref_div">
+		<?php echo $form->labelEx($model,'guest_ref'); ?>
+		<?php echo $form->textField($model,'guest_ref'); ?>
+		<?php echo $form->error($model,'guest_ref'); ?>
+
 	</div>
 
             
-        <div class="row">
-		 <?php 
-                                    $this->widget( 
-                                        'bootstrap.widgets.TbDatePicker', array( 
-                                        'model' => $model, 
-                                        'value' => $model->guest_ref,  
-                                        'name' => 'Ticket[guest_ref]',
-                                         'options' => array('startView' => 'decade'),
-                                        'htmlOptions'   => array(    'placeholder' => 'From Date') 
-                                             ) 
-                                     );
-                       
-                                    ?> 
-
-	</div>
-
        
         
         
@@ -145,15 +139,54 @@ $( document ).ready(function() {
                 $('#Ticket_final_amount_paid').attr("disabled", true);
             else
                 $('#Ticket_final_amount_paid').attr("disabled", false);
+            console.log(datar);
+            if(datar['sold_with_promotion_id'] == null) {
+                console.log(datar);
+                $(".final_amount_paid_div").hide();
+                $(".payment_due_on_div").hide();
+                $(".payment_comments_div").hide();
+                $(".guest_ref_div").hide();
+            }
+            else if(datar['sold_with_promotion_id'] == "16") {
+                $(".final_amount_paid_div").hide();
+                $(".payment_due_on_div").hide();
+                $(".payment_comments_div").hide();
+                $(".guest_ref_div").show();
+            }
+            else {
+                $(".final_amount_paid_div").show();
+                $(".payment_due_on_div").show();
+                $(".payment_comments_div").show();
+                $(".guest_ref_div").hide();
+            }
+            
         })
         .fail(function() {
             $(".paymentForm").hide();
             alert( "Ticket ID is invalid." );
         });
-
-
+        
     }); 
-
+    $("#promotion_list").change(function(e){
+        if($("#promotion_list option:selected").index() == 0) {
+                $(".final_amount_paid_div").hide();
+                $(".payment_due_on_div").hide();
+                $(".payment_comments_div").hide();
+                $(".guest_ref_div").hide();
+        }
+        else if($("#promotion_list option:selected").index() == "16") {
+                $(".final_amount_paid_div").hide();
+                $(".payment_due_on_div").hide();
+                $(".payment_comments_div").hide();
+                $(".guest_ref_div").show();
+            }
+            else {
+                $(".final_amount_paid_div").show();
+                $(".payment_due_on_div").show();
+                $(".payment_comments_div").show();
+                $(".guest_ref_div").hide();
+            }
+    });
 });
 
 
