@@ -26,7 +26,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		
 	<div class="row">
 		<?php echo $form->labelEx($model,'ticket_no'); ?>
-		<?php echo $form->textField($model,'ticket_no'); ?>
+		<?php echo $form->textField($model,'ticket_no',  array('autocomplete'=>'off')); ?>
 		<?php echo $form->error($model,'ticket_no'); ?>
 	</div>
         
@@ -36,13 +36,13 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
         <br />
         <br />
        
-        
         <div class="row">
-            <b>Status : </b> <i><span id="ticket_status"></span> </i>
+            <b>Status : </b> <i><span id="ticket_status">Please Enter Ticket Number</span> </i>
 	</div>
         <br />
         <br />
         
+        <div class="paymentForm">
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
@@ -87,7 +87,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 	<div class="row">
 		<?php $ct = date("Y-m-d H:i:s"); $model->attendee_check_in_time = $ct; echo $ct; ?>
 	</div>
-	
+	</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
@@ -97,7 +97,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 <script>
     
 $( document ).ready(function() {
-
+    $(".paymentForm").hide();
     $("#fetch").click(function(e){
         e.preventDefault();
         if ( $('#Ticket_ticket_no').val() == '' || $('#Ticket_ticket_no').val().length < 2) {
@@ -111,7 +111,7 @@ $( document ).ready(function() {
             dataType: 'json'
         })
         .done(function(datar) {
-            
+            $(".paymentForm").show();
             console.log(datar);
             $('#ticket_status').html(datar['status']);
             if(datar['attended'] == 1)
@@ -131,7 +131,8 @@ $( document ).ready(function() {
                 $('#Ticket_final_amount_paid').attr("disabled", false);
         })
         .fail(function() {
-            alert( "Error in Retrieval" );
+            $(".paymentForm").hide();
+            alert( "Ticket ID is invalid." );
         });
 
 
