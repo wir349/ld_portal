@@ -119,6 +119,8 @@ $( document ).ready(function() {
             
             if(datar['status'] == 'PAID')
                 $('#Ticket_final_amount_paid').attr("disabled", true);
+			else
+				  $('#Ticket_final_amount_paid').attr("disabled", false);
         })
         .fail(function() {
             alert( "Error in Retrieval" );
