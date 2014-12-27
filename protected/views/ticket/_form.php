@@ -31,12 +31,17 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 	</div>
         
         <div class="row">
-            <button id="fetch">Fetch</button>
+            <button id="fetch">Retrieve Ticket Information</button>
 	</div>
+        <br />
+        <br />
+       
         
         <div class="row">
             <b>Status : </b> <i><span id="ticket_status"></span> </i>
 	</div>
+        <br />
+        <br />
         
 
 	<div class="row">
@@ -50,18 +55,18 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.1
 		<?php echo $form->error($model,'final_amount_paid'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'payment_comments'); ?>
-		<?php echo $form->textField($model,'payment_comments',array('size'=>60,'maxlength'=>300)); ?>
-		<?php echo $form->error($model,'payment_comments'); ?>
-	</div>
-        
         <div class="row">
 		<?php echo $form->labelEx($model,'payment_due_on'); ?>
 		<?php echo $form->textField($model,'payment_due_on'); ?>
 		<?php echo $form->error($model,'payment_due_on'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'payment_comments'); ?>
+		<?php echo $form->textField($model,'payment_comments',array('size'=>60,'maxlength'=>300)); ?>
+		<?php echo $form->error($model,'payment_comments'); ?>
+	</div>
+        
         <div class="row">
 		<?php echo $form->labelEx($model,'guest_ref'); ?>
 		<?php echo $form->textField($model,'guest_ref'); ?>
