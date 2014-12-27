@@ -18,6 +18,8 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 <?php echo Yii::app()->bootstrap->init();?>
+    <script>var baseUrl = '<?php echo Yii::app()->baseUrl; ?>';</script>;
+    
 <body>
 
 <div class="container" id="page">

@@ -17,5 +17,4 @@ $this->menu=array(
 
 <?php $this->renderPartial('_form', array(
         'model'=>$model,
-        'saved'=>$saved,
-        'matching_contacts'=>$matching_contacts)); ?>
+        )); ?>

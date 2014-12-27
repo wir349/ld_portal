@@ -5,7 +5,7 @@
 
 
 ?>
-<script>var baseUrl = '<?php echo Yii::app()->baseUrl; ?>';</script>;
+
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(

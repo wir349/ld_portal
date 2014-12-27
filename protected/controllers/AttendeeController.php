@@ -32,7 +32,7 @@ class AttendeeController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','ValidatePhone'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,39 +56,50 @@ class AttendeeController extends Controller
 		));
 	}
 
+        
+        public function actionValidatePhone() {
+            
+            $phoneNum = Yii::app()->request->getParam('phone_number');
+            $countryCode = Yii::app()->request->getParam('country_code');
+           
+            $attendees = $this->loadModelByPhone($countryCode, $phoneNum);
+            $attJson = array();
+            
+            
+            if ( isset($attendees)) {
+                
+                foreach ( $attendees as $att ) {
+                    $attJson[$att['attendee_id']] = $att;
+                }
+            
+            }
+            
+            
+            if ( isset ($attendees) ) {
+                echo CJSON::encode(array('isNew'=>false,'data'=>$attJson));
+            } else {
+                echo CJSON::encode(array('isNew'=>true));
+            }
+            
+        }
+        
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
 	{
-                $model=new Attendee;
-                $saved = false;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-                $matching_contacts = array();
-
+                $model = new Attendee();
                 
-		if ( isset($_POST['Ticket']) ) 
+		if(isset($_POST['Attendee']))
 		{
-                        $model = Ticket::getModelByTicketNo($_POST['Ticket']['ticket_no']);
-			$model->attributes = $_POST['Ticket'];
-
-			// Uncomment the following line if AJAX validation is needed
-			// $this->performAjaxValidation($model);
-			$model->event_id = 1;
-			$model->updated_by_user = 1;
-			
-                        if($model->save())
-                        {
-                            $saved = true;
-                            $model = new Ticket();
+                        // Find model by phone number
+                        $model = $this->loadModelByPhone($_POST['Attendee']['phone_no']);
+                        
+                        if( !isset($model) ) {
+                            $model = new Attendee();
                         }
-		}
-		elseif(isset($_POST['Attendee']))
-		{
+                        
 			$model->attributes=$_POST['Attendee'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->attendee_id));
@@ -97,48 +108,9 @@ class AttendeeController extends Controller
 		
 		$this->render('create',array(
 			'model'=>$model,
-			'saved'=>$saved,
-                    'matching_contacts' => $matching_contacts,
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Attendee']))
-		{
-			$model->attributes=$_POST['Attendee'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->attendee_id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
 
 	/**
 	 * Lists all models.
@@ -173,24 +145,21 @@ class AttendeeController extends Controller
 	 * @return Attendee the loaded model
 	 * @throws CHttpException
 	 */
-	public function loadModel($id)
+	public function loadModelByPhone($countryCode , $phoneNum)
 	{
-		$model=Attendee::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
+		$attendees = Yii::app()->db->createCommand()
+                        ->select('*')
+                        ->from('attendee')
+                        ->where('country_code=:countryCode AND phone_number=:phoneNum', array(':countryCode'=>$countryCode,':phoneNum'=>$phoneNum))
+         
+                        ->queryAll();
+                
+                if ( count($attendees) > 0 )
+                    return $attendees;
+                
+		
+		else return null;
 	}
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param Attendee $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='attendee-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+	
 }
