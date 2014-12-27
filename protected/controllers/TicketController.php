@@ -99,7 +99,8 @@ class TicketController extends Controller
 			$model->event_id = 1;
 			$model->updated_by_user = 1;
 			
-			
+                        $ct = date("Y-m-d H:i:s");
+                        $model->attendee_check_in_time = $ct;			
                         
                         if($model->save())
                         {
