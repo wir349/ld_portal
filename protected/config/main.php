@@ -15,7 +15,7 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
-		'application.components.*',
+                'application.components.*',
 	),
 
 	'modules'=>array(
@@ -53,11 +53,10 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-            'connectionString' => 'mysql:host=127.0.0.1;dbname=ld_portal',
-			//'connectionString' => 'mysql:host=192.168.0.3;dbname=ld_portal',
+			'connectionString' => 'mysql:host=localhost;dbname=ld_portal',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'noumanbhai',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		

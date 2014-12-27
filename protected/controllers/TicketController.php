@@ -32,7 +32,7 @@ class TicketController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','validateticket'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -91,22 +91,22 @@ class TicketController extends Controller
 		$saved = false;
 		if ( isset($_POST['Ticket']) ) 
 		{
-			$model=$this->getModelByTicketNumber($model->ticket_no);
+                        $model = Ticket::getModelByTicketNo($_POST['Ticket']['ticket_no']);
+			$model->attributes = $_POST['Ticket'];
 
 			// Uncomment the following line if AJAX validation is needed
 			// $this->performAjaxValidation($model);
 			$model->event_id = 1;
 			$model->updated_by_user = 1;
 			
-			if(isset($_POST['Ticket']))
-			{
-				$model->attributes=$_POST['Ticket'];
-				if($model->save())
-				{
-					$saved = true;
-					$model = new Ticket();
-				}
-			}
+			
+                        
+                        if($model->save())
+                        {
+                            $saved = true;
+                        
+                        }
+			
 		}
 		
 		$this->render('update',array(
@@ -129,7 +129,51 @@ class TicketController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
-	/**
+
+
+        
+        
+         * 
+         */
+	
+        public function actionValidateTicket() 
+        {
+            $ticket_no = Yii::app()->request->getParam('ticket_no');
+            $model = Ticket::getModelByTicketNo($ticket_no);
+          
+            $promotion = $model->sold_with_promotion_id; 
+            $attended = $model->details_filled_out;
+            $payment_due_on = $model->payment_due_on;
+            $guest_ref = $model->guest_ref;
+            $payment_comments = $model->payment_comments;
+            $final_amount_paid = $model->final_amount_paid;
+             
+            if ( isset($model->soldWithPromotion))
+            {
+                $amountToBeGiven = $model->soldWithPromotion->price;
+                $amountPaid = $model->final_amount_paid;
+
+                if ( $amountToBeGiven == $amountPaid )
+                    $status = 'PAID';
+                else
+                    $status = 'UNPAID';
+            }
+            else
+            {
+                 $status = 'UNPAID';
+            }
+            echo CJSON::encode(array('status'=>$status,
+                                    'promotion' => $promotion,  
+                                    'attended' => $attended,
+                                    'payment_due_on'=>$payment_due_on,
+                                    'guest_ref'=>$guest_ref,
+                                    'payment_comments'=>$payment_comments,
+                                    'final_amount_paid'=>$final_amount_paid));
+            
+                        
+        }
+        
+        /**
 	 * Lists all models.
 	 */
 	 
@@ -143,18 +187,19 @@ class TicketController extends Controller
 
 	/**
 	 * Manages all models.
-	 */
+	 
 	public function actionAdmin()
 	{
 		$model=new Ticket('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Ticket']))
 			$model->attributes=$_GET['Ticket'];
+
 		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}
-
+*/
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -185,7 +230,7 @@ class TicketController extends Controller
 	
 	public static function getModelByTicketNumber($ticket_no)
 	{
-		//$model = Ticket::model()->findByAtt();
+		$model = Ticket::model()->findByAtt();
 		return new Ticket(); 
 	}
 	

@@ -139,6 +139,13 @@ class Ticket extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getModelByTicketNo($ticket_no)
+        {
+            
+            return (self::model()->findByAttributes(array('ticket_no'=>$ticket_no)));
+            
+        }
 	
 	
 }

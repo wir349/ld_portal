@@ -112,4 +112,16 @@ class Promotion extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        public static function getAllPromotions() {
+            
+            $arr = array();
+            $ret = self::model()->findAll();
+            for ( $i = 0 ; $i < count($ret) ; $i++ ) {
+                $arr[$ret[$i]->promotion_id] = $ret[$i]->name . ' - ' . $ret[$i]->price; 
+        }
+        
+        return $arr;
+            
+        }
 }

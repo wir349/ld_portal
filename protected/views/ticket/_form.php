@@ -2,8 +2,11 @@
 /* @var $this TicketController */
 /* @var $model Ticket */
 /* @var $form CActiveForm */
-?>
 
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-1.11.2.min.js',CClientScript::POS_BEGIN);
+
+?>
+<script>var baseUrl = '<?php echo Yii::app()->baseUrl; ?>';</script>;
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -26,10 +29,19 @@
 		<?php echo $form->textField($model,'ticket_no'); ?>
 		<?php echo $form->error($model,'ticket_no'); ?>
 	</div>
+        
+        <div class="row">
+            <button id="fetch">Fetch</button>
+	</div>
+        
+        <div class="row">
+            <b>Status : </b> <i><span id="ticket_status"></span> </i>
+	</div>
+        
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
-		<?php echo $form->dropDownList($model,'sold_with_promotion_id',array());?>
+		<?php echo $form->dropDownList($model,'sold_with_promotion_id',  Promotion::getAllPromotions());?>
 	</div>
 
 	<div class="row">
@@ -42,6 +54,25 @@
 		<?php echo $form->labelEx($model,'payment_comments'); ?>
 		<?php echo $form->textField($model,'payment_comments',array('size'=>60,'maxlength'=>300)); ?>
 		<?php echo $form->error($model,'payment_comments'); ?>
+	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'final_amount_paid'); ?>
+		<?php echo $form->textField($model,'final_amount_paid'); ?>
+		<?php echo $form->error($model,'final_amount_paid'); ?>
+	</div>
+
+        <div class="row">
+		<?php echo $form->labelEx($model,'final_amount_paid'); ?>
+		<?php echo $form->textField($model,'final_amount_paid'); ?>
+		<?php echo $form->error($model,'final_amount_paid'); ?>
+	</div>
+
+        
+        
+        
+        <div class="row">
+		<input type="checkbox" id="Ticket_details_filled_out" name="Ticket[details_filled_out]"  value="1">&nbsp; I have seen the attendee and his details are on the ticket
 	</div>
 
 	<div class="row buttons">
@@ -58,3 +89,48 @@
 
 
 
+<script>
+    
+$( document ).ready(function() {
+
+    $("#fetch").click(function(e){
+        e.preventDefault();
+        if ( $('#Ticket_ticket_no').val() == '' || $('#Ticket_ticket_no').val().length < 2) {
+            $('#ticket_status').html('Please Enter Ticket Number');
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "/index.php?r=ticket/validateTicket",
+            data: { 'ticket_no': $('#Ticket_ticket_no').val() },
+            dataType: 'json'
+        })
+        .done(function(datar) {
+            
+            console.log(datar);
+            $('#ticket_status').html(datar['status']);
+            if(datar['attended'] == 1)
+                $('#Ticket_details_filled_out').attr("checked", true);
+            $('#Ticket_final_amount_paid').val(datar['final_amount_paid']);
+            
+            if(datar['status'] == 'PAID')
+                $('#Ticket_final_amount_paid').attr("disabled", true);
+        })
+        .fail(function() {
+            alert( "Error in Retrieval" );
+        });
+
+
+    }); 
+
+});
+
+
+
+
+
+
+
+
+</script>
+    
