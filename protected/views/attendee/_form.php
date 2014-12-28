@@ -97,7 +97,8 @@
                                         'model' => $model, 
                                         'value' => $model->date_of_birth,  
                                         'name' => 'Attendee[date_of_birth]',
-                                         'options' => array('startView' => 'decade' ,'format' => 'yyyy-mm-dd')
+                                        'options' => array('startView' => 'decade' ,'format' => 'yyyy-mm-dd'),
+                                        'htmlOptions' => array('placeholder'=>'yyyy/mm/dd')    
                                              ) 
                                      );
                        
@@ -263,6 +264,14 @@ $( document ).ready(function() {
         $('.phoneNumber').hide();
        
     });
+    
+    
+    $('#attendee-form').submit(function(e) {
+        re = /^\d{1,2}\/\d{1,2}\/\d{4}$/; 
+        if(  !$('#Attendee_date_of_birth').val().match(re)) { 
+            alert("Invalid date format: " + $('#Attendee_date_of_birth').val()); $('#Attendee_date_of_birth').focus(); return false; }
+    });
+     
 
 });
 
