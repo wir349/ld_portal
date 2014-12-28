@@ -49,7 +49,7 @@
 		<?php echo $form->labelEx($model,'sold_with_promotion_id'); ?>
             <?php 
             $promotions_list = Promotion::getAllPromotions();
-            echo $form->dropDownList($model,'sold_with_promotion_id', $promotions_list, array('id'=>"promotion_list", 'empty' => '--Select a Promotion --'));
+            echo $form->dropDownList($model,'sold_with_promotion_id', $promotions_list, array( 'empty' => '--Select a Promotion --'));
             ?>
 	</div>
 
@@ -167,17 +167,17 @@ $( document ).ready(function() {
         });
         
     }); 
-    $("#promotion_list").change(function(e){
-        if($("#promotion_list option:selected").index() == 0) {
+    $("#Ticket_sold_with_promotion_id").change(function(e){
+        if($("#Ticket_sold_with_promotion_id option:selected").index() == 0) {
                 $(".final_amount_paid_div").hide();
                 $(".payment_due_on_div").hide();
                 $(".payment_comments_div").hide();
                 $(".guest_ref_div").hide();
         }
-        else if($("#promotion_list option:selected").index() == "16") {
+        else if($("#Ticket_sold_with_promotion_id option:selected").index() == "16") {
                 $(".final_amount_paid_div").hide();
                 $(".payment_due_on_div").hide();
-                $(".payment_comments_div").hide();
+                $(".payment_comments_div").show();
                 $(".guest_ref_div").show();
             }
             else {

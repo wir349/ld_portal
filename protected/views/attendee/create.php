@@ -17,4 +17,5 @@ $this->menu=array(
 
 <?php $this->renderPartial('_form', array(
         'model'=>$model,
+        'ticketModel' => $ticketModel
         )); ?>

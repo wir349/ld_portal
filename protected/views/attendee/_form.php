@@ -4,8 +4,6 @@
 /* @var $form CActiveForm */
 
 
-$modelTicket = new Ticket();
-
 ?>
 
 <div class="form">
@@ -30,13 +28,14 @@ $modelTicket = new Ticket();
     
         <div class="ticketNo">
             <div class="row">
-                    <?php echo $form->labelEx($modelTicket,'ticket_no'); ?>
-                    <?php echo $form->textField($modelTicket,'ticket_no',  array('autocomplete'=>'off')); ?>
-                    <?php echo $form->error($modelTicket,'ticket_no'); ?>
+                    <?php echo $form->labelEx($ticketModel,'ticket_no'); ?>
+                    <?php echo $form->textField($ticketModel,'ticket_no',  array('autocomplete'=>'off')); ?>
+                    <?php echo $form->error($ticketModel,'ticket_no'); ?>
             </div>
             <div class="row">
                 <button class="btn btn-small btn-info" id="checkTicket">Validate Ticket No.</button>
             </div>
+                
         
         </div>
     
@@ -68,7 +67,7 @@ $modelTicket = new Ticket();
         <div class="selectContactInfoType">
 
 	<div class="row">
-            <select id="all_attendees" size="3">
+            <select id="Attendee_attendee_id" name="Attendee[attendee_id]" size="3">
             
                 
             </select>
@@ -98,7 +97,7 @@ $modelTicket = new Ticket();
                                         'model' => $model, 
                                         'value' => $model->date_of_birth,  
                                         'name' => 'Attendee[date_of_birth]',
-                                         'options' => array('startView' => 'decade')
+                                         'options' => array('startView' => 'decade' ,'format' => 'yyyy-mm-dd')
                                              ) 
                                      );
                        
@@ -120,6 +119,7 @@ $modelTicket = new Ticket();
             
         <div class="row buttons">
 		<?php echo CHtml::submitButton('Update',array('class'=>"btn btn-success")); ?>
+                <button class="btn btn-danger" id="reset">Reset</button>
 	</div>
 
 
@@ -143,6 +143,7 @@ $( document ).ready(function() {
              alert( "Ticket ID is invalid." );
             return;
         }
+       
         $.ajax({
             type: "POST",
             url: baseUrl + "/index.php?r=ticket/validateTicket",
@@ -150,7 +151,8 @@ $( document ).ready(function() {
             dataType: 'json'
         })
         .done(function(datar) {
-            $('#Ticket_ticket_no').attr('disabled',true);
+            $('#Ticket_ticket_no').attr('readonly',true);
+            clearFields(); clearBox();
             $('.phoneNumber').show();
             console.log(datar);
             
@@ -177,19 +179,20 @@ $( document ).ready(function() {
             dataType: 'json'
         })
         .done(function(datar) {
-            $('#Attendee_phone_number').attr('disabled',true);
-            $('#Attendee_country_code').attr('disabled',true);
+            clearFields();clearBox();
+           $('#Attendee_phone_number').attr('readonly',true);
+           $('#Attendee_country_code').attr('readonly',true);
             $('.selectContactInfoType').show();
             if ( datar['isNew'] == false) {
                 currentAttendeesData = datar['data'];
                 for(var attKey in currentAttendeesData ) {
-                    $('#all_attendees')
+                    $('#Attendee_attendee_id')
                     .append($("<option></option>")
                     .attr("value",attKey)
                     .text(currentAttendeesData[attKey]['name'])); 
                 }
             } 
-                 $('#all_attendees')
+                 $('#Attendee_attendee_id')
                     .append($("<option></option>")
                     .attr("value",0)
                     .text('- New Participant -')); 
@@ -206,7 +209,7 @@ $( document ).ready(function() {
     
     
     
-     $("#all_attendees").change(function(e){
+     $("#Attendee_attendee_id").change(function(e){
         
             if ( !! e.target.value ) {
                 var id = e.target.value;
@@ -215,11 +218,9 @@ $( document ).ready(function() {
                     $('#Attendee_email_address').val(currentAttendeesData[id]['email_address']);    
                     $('#Attendee_date_of_birth').val(currentAttendeesData[id]['date_of_birth']);
                     $('#Attendee_area').val(currentAttendeesData[id]['name']);
+                    
                 } else {
-                    $('#Attendee_name').val('');
-                    $('#Attendee_email_address').val('');    
-                    $('#Attendee_date_of_birth').val('');
-                    $('#Attendee_area').val('');
+                   clearFields();
                 }
             }
 
@@ -235,7 +236,33 @@ $( document ).ready(function() {
             return true;
         }
     });
-
+    
+    
+    function clearFields() {
+                    $('#Attendee_name').val('');
+                    $('#Attendee_email_address').val('');    
+                    $('#Attendee_date_of_birth').val('');
+                    $('#Attendee_area').val('');
+    }
+    
+    function clearBox() {
+         $('#Attendee_attendee_id')
+                        .children().remove();
+    }
+    
+    
+    $("#reset").click(function(e){
+         e.preventDefault();
+        clearFields();
+        clearBox();
+        $('#Ticket_ticket_no').attr('readonly',false);
+        $('#Attendee_phone_number').attr('readonly',false);
+        $('#Attendee_country_code').attr('readonly',false);
+        $('.selectContactInfoType').hide();
+        $('.selectContactInfoType').hide();
+        $('.phoneNumber').hide();
+       
+    });
 
 });
 

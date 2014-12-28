@@ -89,25 +89,39 @@ class AttendeeController extends Controller
 	 */
 	public function actionCreate()
 	{
-                $model = new Attendee();
                 
+                
+               // print_r($_POST['Attendee']); exit();
 		if(isset($_POST['Attendee']))
 		{
                         // Find model by phone number
-                        $model = $this->loadModelByPhone($_POST['Attendee']['phone_no']);
+                        if ( isset($_POST['Attendee']['attendee_id']) && $_POST['Attendee']['attendee_id'] != '' ) {
+                            
+                            $model = $this->loadModelById($_POST['Attendee']['attendee_id']);
+                            if( !isset($model) ) {
+                                $model = new Attendee();
+                            }
+                        } 
                         
-                        if( !isset($model) ) {
-                            $model = new Attendee();
-                        }
+                        $model->attributes=$_POST['Attendee'];
+                    
                         
-			$model->attributes=$_POST['Attendee'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->attendee_id));
-		}
+                        
+                        
+                    if ( $model->save() ) {
+                        $ticketModel = Ticket::getModelByTicketNo($_POST['Ticket']['ticket_no']);
+                        $ticketModel->attendee_id_given_to = $model->attendee_id;
+                         if ( $ticketModel->save() )
+                             $this->refresh();
+                    }
+                } else {
+                  $ticketModel = new Ticket();
+                  $model = new Attendee();
+                }
                 
-		
-		$this->render('create',array(
+                $this->render('create',array(
 			'model'=>$model,
+                        'ticketModel' => $ticketModel
 		));
 	}
 
@@ -159,6 +173,16 @@ class AttendeeController extends Controller
                 
 		
 		else return null;
+	}
+        
+        
+        public function loadModelById($id)
+	{
+               
+		$model = Attendee::model()->findByPk($id);
+		
+		return $model;
+		
 	}
 
 	

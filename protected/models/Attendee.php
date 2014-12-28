@@ -12,10 +12,10 @@
  * @property string $country_code
  * @property string $phone_number
  * @property string $email_address
+ * @property string $area
  *
  * The followings are the available model relations:
  * @property Ticket[] $tickets
- * @property User[] $users
  */
 class Attendee extends CActiveRecord
 {
@@ -35,14 +35,15 @@ class Attendee extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, phone_number', 'required'),
+			array('phone_number', 'required'),
 			array('name, country_code, email_address', 'length', 'max'=>45),
 			array('gender', 'length', 'max'=>7),
 			array('phone_number', 'length', 'max'=>11),
+			array('area', 'length', 'max'=>350),
 			array('date_created, date_of_birth', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('attendee_id, name, gender, date_created, date_of_birth, country_code, phone_number, email_address', 'safe', 'on'=>'search'),
+			array('attendee_id, name, gender, date_created, date_of_birth, country_code, phone_number, email_address, area', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +56,6 @@ class Attendee extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'tickets' => array(self::HAS_MANY, 'Ticket', 'attendee_id_given_to'),
-			'users' => array(self::HAS_MANY, 'User', 'attendee_id'),
 		);
 	}
 
@@ -73,6 +73,7 @@ class Attendee extends CActiveRecord
 			'country_code' => 'Country Code',
 			'phone_number' => 'Phone Number',
 			'email_address' => 'Email Address',
+			'area' => 'Area',
 		);
 	}
 
@@ -102,6 +103,7 @@ class Attendee extends CActiveRecord
 		$criteria->compare('country_code',$this->country_code,true);
 		$criteria->compare('phone_number',$this->phone_number,true);
 		$criteria->compare('email_address',$this->email_address,true);
+		$criteria->compare('area',$this->area,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

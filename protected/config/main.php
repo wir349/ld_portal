@@ -31,7 +31,9 @@ return array(
 			'password'=>'1234',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
+                    'generatorPaths'=>array('bootstrap.gii')
 		),
+            
 		
 	),
 
@@ -96,11 +98,8 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
 	),
     'theme'=>'bootstrap',
-    'modules'=>array(
-        'gii'=>array(
-            'generatorPaths'=>array(
-                'bootstrap.gii',
-            ),                      
-        ),
-    ),
+    
 );
+
+
+
