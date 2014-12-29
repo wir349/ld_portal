@@ -7,6 +7,13 @@
  */
 class UserIdentity extends CUserIdentity
 {
+        private $_id;
+        
+        public function getId()
+        {
+            return $this->_id;
+        }
+
 	/**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
@@ -17,7 +24,7 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		$users=array(
+		/*$users=array(
 			// username => password
 			'demo'=>'demo',
 			'admin'=>'admin',
@@ -28,6 +35,20 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 			$this->errorCode=self::ERROR_NONE;
-		return !$this->errorCode;
+		return !$this->errorCode;*/
+           // echo CPasswordHelper::hashPassword($this->password); exit();
+                $record=User::model()->findByAttributes(array('username'=>$this->username));
+                if($record===null)
+                    $this->errorCode=self::ERROR_USERNAME_INVALID;
+                else if(!CPasswordHelper::verifyPassword($this->password,$record->password))
+                    $this->errorCode=self::ERROR_PASSWORD_INVALID;
+                else
+                {
+                   
+                    $this->_id=$record->user_id;
+                    //$this->setState('id', $users->id);
+                    $this->errorCode=self::ERROR_NONE;
+                }
+            return !$this->errorCode;
 	}
 }

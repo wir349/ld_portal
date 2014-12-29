@@ -7,10 +7,7 @@ $this->breadcrumbs=array(
 	'Create',
 );
 
-$this->menu=array(
-	array('label'=>'List Attendee', 'url'=>array('index')),
-	array('label'=>'Manage Attendee', 'url'=>array('admin')),
-);
+
 ?>
 
 <h1>Attendance</h1>

@@ -56,9 +56,10 @@
                         ); ?>
 		<?php //echo $form->error($model,'ticket_no'); ?>
 	</div>
-
+       
         <div class="row">
             <button class="btn btn-small btn-info" id="checkPhoneNumber">Retrieve Contact Information</button>
+             <button class="btn btn-danger" id="reset">Reset</button>
 	</div>
         <br />
         
@@ -120,7 +121,7 @@
             
         <div class="row buttons">
 		<?php echo CHtml::submitButton('Update',array('class'=>"btn btn-success")); ?>
-                <button class="btn btn-danger" id="reset">Reset</button>
+               
 	</div>
 
 

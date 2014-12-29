@@ -97,14 +97,15 @@ class TicketController extends Controller
 			// Uncomment the following line if AJAX validation is needed
 			// $this->performAjaxValidation($model);
 			$model->event_id = 1;
-			$model->updated_by_user = 1;
+			$model->updated_by_user = Yii::app()->user->id;
+                        
 			
                         $ct = date("Y-m-d H:i:s");
                         $model->attendee_check_in_time = $ct;			
                         
                         if($model->save())
                         {
-                           Yii::app()->user->setFlash('success', '<strong>Well done!</strong> You successfully read this important alert message.');
+                           Yii::app()->user->setFlash('success', '<strong>Ticket Num ' . $model->ticket_no . ' Updated! </strong> Final Price Was :'. $model->final_amount_paid);
                             $model = new Ticket();
                         }
 			
