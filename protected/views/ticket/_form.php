@@ -65,16 +65,6 @@
 		<?php echo $form->error($model,'payment_due_on'); ?>
 	</div>
 
-	<div class="row payment_comments_div">
-		<?php echo $form->labelEx($model,'payment_comments'); ?>
-		<?php echo $form->textArea($model,'payment_comments',array('rows'=>3,'size'=>60,'maxlength'=>300)); ?>
-		<?php echo $form->error($model,'payment_comments'); ?>
-	</div>
-        
-
-        <div class="row">
-		
-
         <div class="row guest_ref_div">
 		<?php echo $form->labelEx($model,'guest_ref'); ?>
 		<?php echo $form->textField($model,'guest_ref'); ?>
@@ -83,11 +73,14 @@
 	</div>
 
             
-       
-        
+	<div class="row payment_comments_div">
+		<?php echo $form->labelEx($model,'payment_comments'); ?>
+		<?php echo $form->textArea($model,'payment_comments',array('rows'=>3,'size'=>60,'maxlength'=>300)); ?>
+		<?php echo $form->error($model,'payment_comments'); ?>
+	</div>
         
         <div class="row">
-		<input type="checkbox" id="Ticket_details_filled_out" name="Ticket[details_filled_out]"  value="1">&nbsp; I have seen the attendee and his details are on the ticket
+            <?php echo $form->checkBox($model,'details_filled_out', array('value'=>1, 'uncheckValue'=>0)); ?> I have seen the attendee and his details are on the ticket
 	</div>
 
 	<div class="row buttons">
@@ -135,10 +128,10 @@ $( document ).ready(function() {
             $('#Ticket_guest_ref').val(datar['guest_ref']);
             $('#Ticket_payment_comments').val(datar['payment_comments']);
             
-            if(datar['status'] == 'PAID')
-                $('#Ticket_final_amount_paid').attr("disabled", true);
-            else
-                $('#Ticket_final_amount_paid').attr("disabled", false);
+            //if(datar['status'] == 'PAID' data )
+            //    $('#Ticket_final_amount_paid').attr("disabled", true);
+            //else
+            //    $('#Ticket_final_amount_paid').attr("disabled", false);
             console.log(datar);
             if(datar['sold_with_promotion_id'] == null) {
                 console.log(datar);
@@ -186,6 +179,17 @@ $( document ).ready(function() {
                 $(".payment_comments_div").show();
                 $(".guest_ref_div").hide();
             }
+    });
+    $("#Ticket_payment_due_on").keyup(function(e){
+        if($("#Ticket_payment_due_on").val() != "") {
+            $("#Ticket_final_amount_paid").prop("disabled", true);
+            $("#Ticket_final_amount_paid").val(0);
+        }
+        else {
+            $("#Ticket_final_amount_paid").prop("disabled", false);
+        }
+        
+        
     });
 });
 
