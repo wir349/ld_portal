@@ -220,7 +220,7 @@ $( document ).ready(function() {
                     $('#Attendee_name').val(currentAttendeesData[id]['name']);
                     $('#Attendee_email_address').val(currentAttendeesData[id]['email_address']);    
                     $('#Attendee_date_of_birth').val(currentAttendeesData[id]['date_of_birth']);
-                    $('#Attendee_area').val(currentAttendeesData[id]['name']);
+                    $('#Attendee_area').val(currentAttendeesData[id]['area']);
                     
                 } else {
                    clearFields();

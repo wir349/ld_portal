@@ -97,18 +97,23 @@ class AttendeeController extends Controller
                         // Find model by attId
                         if ( isset($_POST['Attendee']['attendee_id']) && $_POST['Attendee']['attendee_id'] != '' ) {
                               $model = $this->loadModelById($_POST['Attendee']['attendee_id']);
+                           
                         } 
                         
                         if( !isset($model) ) {
+                             
                               $model = new Attendee();
                         }
-                       
+                        
                         $model->attributes=$_POST['Attendee'];
+                  
+                    
                     
                         
                         
                         
                     if ( $model->save() ) {
+                         
                         $ticketModel = Ticket::getModelByTicketNo($_POST['Ticket']['ticket_no']);
                         $ticketModel->attendee_id_given_to = $model->attendee_id;
                          if ( $ticketModel->save() )
