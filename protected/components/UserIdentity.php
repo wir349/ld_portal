@@ -13,6 +13,8 @@ class UserIdentity extends CUserIdentity
         {
             return $this->_id;
         }
+        
+        
 
 	/**
 	 * Authenticates a user.
@@ -46,6 +48,7 @@ class UserIdentity extends CUserIdentity
                 {
                    
                     $this->_id=$record->user_id;
+                    $this->setState('gender',$record->gender);
                     //$this->setState('id', $users->id);
                     $this->errorCode=self::ERROR_NONE;
                 }

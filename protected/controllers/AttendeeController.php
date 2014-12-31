@@ -94,15 +94,15 @@ class AttendeeController extends Controller
                // print_r($_POST['Attendee']); exit();
 		if(isset($_POST['Attendee']))
 		{
-                        // Find model by phone number
+                        // Find model by attId
                         if ( isset($_POST['Attendee']['attendee_id']) && $_POST['Attendee']['attendee_id'] != '' ) {
-                            
-                            $model = $this->loadModelById($_POST['Attendee']['attendee_id']);
-                            if( !isset($model) ) {
-                                $model = new Attendee();
-                            }
+                              $model = $this->loadModelById($_POST['Attendee']['attendee_id']);
                         } 
                         
+                        if( !isset($model) ) {
+                              $model = new Attendee();
+                        }
+                       
                         $model->attributes=$_POST['Attendee'];
                     
                         
@@ -117,6 +117,10 @@ class AttendeeController extends Controller
                 } else {
                   $ticketModel = new Ticket();
                   $model = new Attendee();
+                  if ( Yii::app()->user->gender == 0 )
+                      $model->gender = 'BROTHER';
+                  else
+                      $model->gender = 'SISTER'; 
                 }
                 
                 $this->render('create',array(
