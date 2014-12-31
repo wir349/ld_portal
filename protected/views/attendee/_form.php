@@ -120,7 +120,7 @@
 	</div>
             
         <div class="row buttons">
-		<?php echo CHtml::submitButton('Update',array('class'=>"btn btn-success")); ?>
+		<?php echo CHtml::submitButton('Save Contact Information',array('class'=>"btn btn-success")); ?>
                
 	</div>
 
@@ -184,6 +184,7 @@ $( document ).ready(function() {
             clearFields();clearBox();
            $('#Attendee_phone_number').attr('readonly',true);
            $('#Attendee_country_code').attr('readonly',true);
+           $('.btn-success').attr('value', 'Save Contact Information for Ticket #'+$('#Ticket_ticket_no').val());
             $('.selectContactInfoType').show();
             if ( datar['isNew'] == false) {
                 currentAttendeesData = datar['data'];
