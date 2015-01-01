@@ -10,7 +10,7 @@ Yii::setPathOfAlias('bootstrap', dirname(__FILE__). '/../extensions/bootstrap');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'LD Registration Portal',
+	'name'=>'LiveDeen Registration Portal',
 
 	// preloading 'log' component
 	'preload'=>array('log','bootstrap'),
@@ -65,7 +65,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=ld_portal',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => '',
+			'password' => 'root',
 			'charset' => 'utf8',
 		),
 		
