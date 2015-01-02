@@ -34,6 +34,7 @@
 
 				array('label'=>'Home', 'url'=>array('/site/index')),
 				array('label'=>'Payment', 'url'=>array('/ticket/update')),
+                                array('label'=>'Sign In', 'url'=>array('/ticket/signin')),
 				array('label'=>'Data Entry', 'url'=>array('/attendee/create')),
 
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

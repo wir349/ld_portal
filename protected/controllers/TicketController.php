@@ -32,7 +32,7 @@ class TicketController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','validateticket', 'admin'),
+				'actions'=>array('create','update','validateticket', 'admin' , 'signin'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -101,7 +101,7 @@ class TicketController extends Controller
                         
 			
                         $ct = date("Y-m-d H:i:s");
-                        $model->attendee_check_in_time = $ct;			
+                       // $model->attendee_check_in_time = $ct;			
                         
                         if($model->save())
                         {
@@ -117,6 +117,39 @@ class TicketController extends Controller
 		));
 	}
 
+        
+        public function actionSignIn()
+	{
+		
+		$model = new Ticket();
+		$saved = false;
+		if ( isset($_POST['Ticket']) ) 
+		{
+                        $model = Ticket::getModelByTicketNo($_POST['Ticket']['ticket_no']);
+			$model->attributes = $_POST['Ticket'];
+
+			// Uncomment the following line if AJAX validation is needed
+			// $this->performAjaxValidation($model);
+			$model->event_id = 1;
+			$model->updated_by_user = Yii::app()->user->id;
+                        
+			
+                        $ct = date("Y-m-d H:i:s");
+                        $model->attendee_check_in_time = $ct;			
+                        
+                        if($model->save())
+                        {
+                           Yii::app()->user->setFlash('success', '<strong>Ticket Num ' . $model->ticket_no . ' Updated! </strong> Entry Added');
+                            $model = new Ticket();
+                        }
+			
+		}
+		
+		$this->render('signin',array(
+			'model'=>$model,
+			
+		));
+	}
 	
 	/* This function is used for AJAX call of fetch*/
         public function actionValidateTicket() 
