@@ -34,7 +34,7 @@
 
 				array('label'=>'Home', 'url'=>array('/site/index')),
 				array('label'=>'Payment', 'url'=>array('/ticket/update')),
-				array('label'=>'Attendee', 'url'=>array('/attendee/create')),
+				array('label'=>'Data Entry', 'url'=>array('/attendee/create')),
 
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
@@ -52,7 +52,7 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		Copyright &copy; <?php echo date('Y'); ?> by LiveDeen.<br/>
 		All Rights Reserved.<br/>
 		<?php echo Yii::powered(); ?>
 	</div><!-- footer -->

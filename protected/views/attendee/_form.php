@@ -109,7 +109,7 @@
 
         <div class="row">
 		<?php echo $form->labelEx($model,'gender'); ?>
-		<?php echo $form->textField($model,'gender',array('size'=>7,'maxlength'=>7)); ?>
+		<?php echo $form->textField($model,'gender',array('size'=>7,'maxlength'=>7, 'disabled'=>'true')); ?>
 		<?php echo $form->error($model,'gender'); ?>
 	</div>
             

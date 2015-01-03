@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h1>Attendee Contact Information</h1>
+<h1>Data Entry Form</h1>
 
 <?php $this->renderPartial('_form', array(
         'model'=>$model,

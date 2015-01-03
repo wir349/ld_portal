@@ -10,7 +10,13 @@ $this->breadcrumbs=array(
 ?>
 
 <h1>Login</h1>
-<?php echo CPasswordHelper::hashPassword('livedeen'); ?>
+<?php // echo "<br/>livedeen".CPasswordHelper::hashPassword('livedeen'); ?>
+<?php // echo "<br/>phone".CPasswordHelper::hashPassword('phone'); ?>
+<?php // echo "<br/>java".CPasswordHelper::hashPassword('java'); ?>
+<?php // echo "<br/>dell".CPasswordHelper::hashPassword('dell'); ?>
+<?php // echo "<br/>android".CPasswordHelper::hashPassword('android'); ?>
+<?php // echo "<br/>kinley".CPasswordHelper::hashPassword('kinley'); ?>
+<?php // echo "<br/>rosepetal".CPasswordHelper::hashPassword('rosepetal'); ?>
 <p>Please fill out the following form with your login credentials:</p>
 
 <div class="form">
